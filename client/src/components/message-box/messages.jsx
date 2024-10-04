@@ -1,9 +1,7 @@
 import PropTypes from "prop-types";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-import Message from "./Message/Message";
-
-import "./Messages.css";
+import Message from "./message";
 
 const Messages = ({ messages, name }) => (
   <ScrollToBottom className="flex-1 overflow-auto py-5">
@@ -15,10 +13,9 @@ const Messages = ({ messages, name }) => (
   </ScrollToBottom>
 );
 
-// Add prop validation
 Messages.propTypes = {
-  messages: PropTypes.arrayOf(PropTypes.object).isRequired, // messages is a required array of objects
-  name: PropTypes.string.isRequired, // name is a required string
+  messages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default Messages;

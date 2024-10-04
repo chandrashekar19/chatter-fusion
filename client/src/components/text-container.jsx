@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import { Wifi } from "lucide-react";
+// import { Wifi } from "lucide-react";
 
-const TextContainer = ({ users }) => (
+const TextContainer = () => (
   <div className="flex flex-col ml-24 text-white h-[60%] justify-between">
     <div>
       <h1 className="mb-0">
@@ -23,7 +23,7 @@ const TextContainer = ({ users }) => (
         </span>
       </h2>
     </div>
-    {users && (
+    {/* {users && (
       <div>
         <h1>People currently chatting:</h1>
         <div className="flex items-center mb-20">
@@ -37,7 +37,7 @@ const TextContainer = ({ users }) => (
           </h2>
         </div>
       </div>
-    )}
+    )} */}
   </div>
 );
 

@@ -1,4 +1,4 @@
-## for realtime data transfer we will be using
+## for realtime data transfer we will be using .
 
 1. React js for client side
 2. Node js for backend

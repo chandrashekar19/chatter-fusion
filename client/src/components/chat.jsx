@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import PropTypes from "prop-types";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { useChatStore } from "../hooks/use-chat-store";
 import io from "socket.io-client";
@@ -7,47 +7,58 @@ import InfoBar from "./info-bar";
 import Input from "./input";
 import TextContainer from "./text-container";
 import Messages from "./message-box/messages";
+import { useMessageStore } from "../hooks/use-messages-store";
 
-const Chat = ({ location }) => {
-  const {
-    name,
-    room,
-    users,
-    message,
-    messages,
-    setName,
-    setRoom,
-    setUsers,
-    setMessage,
-    setMessages,
-  } = useChatStore();
-  const ENDPOINT = "localhost:5000";
+const Chat = () => {
+  const location = useLocation();
+  const { name, room, users, setName, setRoom, setUsers } = useChatStore();
+  const { message, messages, setMessage, setMessages } = useMessageStore();
+  const ENDPOINT = "http://localhost:5000"; // Use backend server port, like 5000
+  const socketRef = useRef(null); // useRef to store socket
   let socket;
 
   socket = io(ENDPOINT);
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
 
-    setName(name);
-    setRoom(room);
-    console.log("SOCKET CONNECTION", socket);
+    // Initialize socket connection and store in ref
+    socketRef.current = io(ENDPOINT);
 
-    socket.emit("join", { name, room }, (err) => {
-      if (err) {
-        alert(err);
+    setRoom(room);
+    setName(name);
+
+    // Emit join event
+    socketRef.current.emit("join", { name, room }, (error) => {
+      if (error) {
+        alert(error);
       }
     });
-  }, [location]);
+
+    // Cleanup on unmount
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, [ENDPOINT, location.search, setRoom, setName]);
 
   useEffect(() => {
-    socket.on("message", (message) => {
-      setMessages((messages) => [...messages], message);
-    });
+    if (socketRef.current) {
+      socketRef.current.on("message", (message) => {
+        setMessages(message);
+      });
 
-    socket.on("roomData", ({ users }) => {
-      setUsers(users);
-    });
-  });
+      socketRef.current.on("roomData", ({ users }) => {
+        setUsers(users);
+      });
+    }
+
+    // Cleanup listeners on unmount
+    return () => {
+      if (socketRef.current) {
+        socketRef.current.off("message");
+        socketRef.current.off("roomData");
+      }
+    };
+  }, [setMessages, setUsers]);
 
   const sendMessage = (event) => {
     event.preventDefault();
@@ -71,12 +82,6 @@ const Chat = ({ location }) => {
       <TextContainer users={users} />
     </div>
   );
-};
-
-Chat.propTypes = {
-  location: PropTypes.shape({
-    search: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 export default Chat;
