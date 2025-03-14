@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
 import { useLocation } from "react-router-dom";
@@ -16,22 +16,20 @@ let socket;
 
 const Chat = () => {
   const location = useLocation();
-  const { setName, setRoom, users, setUsers } = userStore();
-  const { message, setMessage, setMessages } = ChatStore();
+  const [messages, setMessages] = useState([]);
+
+  const { setName, setRoom, users, name, setUsers } = userStore();
+  const { message, setMessage } = ChatStore();
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
 
-    socket = io(ENDPOINT, { transports: ["websocket", "polling"] });
+    socket = io(ENDPOINT);
 
     setRoom(room);
     setName(name);
 
-    socket.emit("join", { name, room }, (error) => {
-      if (error) {
-        alert(error);
-      }
-    });
+    socket.emit("join", { name, room }, () => {});
   }, [ENDPOINT, location.search]);
 
   useEffect(() => {
@@ -56,7 +54,7 @@ const Chat = () => {
     <div className="flex justify-center items-center h-screen bg-gray-900">
       <div className="flex flex-col justify-between bg-white rounded-md h-[60%] w-[35%]">
         <InfoBar />
-        <Messages />
+        <Messages messages={messages} name={name} />
         <Input sendMessage={sendMessage} />
       </div>
       <TextContainer users={users} />

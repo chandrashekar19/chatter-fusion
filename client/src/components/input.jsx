@@ -21,7 +21,10 @@ const Input = ({ sendMessage }) => {
       {/* Send Button */}
       <button
         className="ml-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition"
-        onClick={(e) => sendMessage(e)}
+        onClick={(e) => {
+          console.log("Send button clicked. Message:", message);
+          sendMessage(e);
+        }}
       >
         Send
       </button>
