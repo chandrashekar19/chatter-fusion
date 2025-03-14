@@ -8,7 +8,7 @@ const Message = ({ message: { text, user }, name }) => {
   return isSentByCurrentUser ? (
     <div className="flex justify-end px-[5%] mt-1">
       <p className="text-gray-500 text-sm pr-2">{trimmedName}</p>
-      <div className="bg-blue-500 text-white rounded-lg px-5 py-1 inline-block max-w-[80%]">
+      <div className="bg-blue-500 text-black rounded-lg px-5 py-1 inline-block max-w-[80%]">
         <p className="w-full tracking-normal text-[1.1em] break-words">
           {ReactEmoji.emojify(text)}
         </p>

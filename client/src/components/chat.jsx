@@ -10,7 +10,7 @@ import Input from "./input";
 import { ChatStore } from "../hooks/chat-store";
 import { userStore } from "../hooks/user-store";
 
-const ENDPOINT = "https://project-chat-application.herokuapp.com/";
+const ENDPOINT = "https://chatter-fusion.onrender.com";
 
 let socket;
 
