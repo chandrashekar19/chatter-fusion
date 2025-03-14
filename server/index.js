@@ -4,15 +4,22 @@ const socketio = require("socket.io");
 const cors = require("cors");
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
-
 const router = require("./router");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
 
+// ✅ Use CORS middleware for Express routes
 app.use(cors());
 app.use(router);
+
+// ✅ Explicitly enable CORS for Socket.IO
+const io = socketio(server, {
+  cors: {
+    origin: "*", // Allow all origins (Change this in production)
+    methods: ["GET", "POST"],
+  },
+});
 
 io.on("connect", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
@@ -40,9 +47,7 @@ io.on("connect", (socket) => {
 
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
-
     io.to(user.room).emit("message", { user: user.name, text: message });
-
     callback();
   });
 
@@ -62,6 +67,7 @@ io.on("connect", (socket) => {
   });
 });
 
+// ✅ Listen on the correct port
 server.listen(process.env.PORT || 5000, () =>
   console.log(`Server has started.`)
 );
