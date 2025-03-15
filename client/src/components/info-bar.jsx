@@ -2,20 +2,22 @@ import React from "react";
 import { CheckCircle, LogOut } from "lucide-react";
 import { userStore } from "../hooks/user-store";
 
-const InfoBar = () => {
+export const InfoBar = () => {
   const { room } = userStore();
   return (
-    <div className="flex items-center justify-between bg-blue-800 rounded-md h-15 w-[100%]">
-      <div className="flex flex-[0.5] items-center ml-[5%] text-white">
-        <CheckCircle className="mr-[5%]" />
-        <h3>{room}</h3>
+    <div className="flex items-center justify-between bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl h-14 px-4 shadow-lg">
+      <div className="flex items-center text-white space-x-2">
+        <CheckCircle className="text-green-400" />
+        <h3 className="text-lg font-semibold">{room}</h3>
       </div>
-      <div className="flex flex-[0.5] justify-end mr-[5%] text-white">
-        <a href="/">
+      <div>
+        <a
+          href="/"
+          className="text-white hover:text-red-400 transition-all duration-300"
+        >
           <LogOut />
         </a>
       </div>
     </div>
   );
 };
-export default InfoBar;

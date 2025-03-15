@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Chat from "./components/chat";
-import Join from "./components/join";
+import { Chat } from "./components/chat";
+import { Join } from "./components/join";
 
 const App = () => {
   return (

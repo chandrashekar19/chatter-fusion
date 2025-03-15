@@ -1,12 +1,10 @@
-import React from "react";
 import { ChatStore } from "../hooks/chat-store";
 
-const Input = ({ sendMessage }) => {
+export const Input = ({ sendMessage }) => {
   const { message, setMessage } = ChatStore();
 
   return (
     <form className="flex items-center border-t-2 border-gray-300 p-2">
-      {/* Input Field */}
       <input
         className="w-full sm:w-[80%] p-3 border-2 border-gray-400 rounded-lg text-lg outline-none focus:border-blue-500 transition-all"
         type="text"
@@ -17,8 +15,6 @@ const Input = ({ sendMessage }) => {
           event.key === "Enter" ? sendMessage(event) : null
         }
       />
-
-      {/* Send Button */}
       <button
         className="ml-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition"
         onClick={(e) => {
@@ -31,5 +27,3 @@ const Input = ({ sendMessage }) => {
     </form>
   );
 };
-
-export default Input;

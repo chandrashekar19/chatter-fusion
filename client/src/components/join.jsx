@@ -1,19 +1,15 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { userStore } from "../hooks/user-store";
 
-export default function SignIn() {
+export const Join = () => {
   const { name, setName, room, setRoom } = userStore();
 
   return (
-    <div className="flex justify-center text-center h-screen items-center">
+    <div className="flex justify-center text-center h-screen items-center bg-gray-900">
       <div className="w-full max-w-sm p-6 bg-gray-800 rounded-lg shadow-lg">
-        {/* Heading */}
         <h1 className="text-white text-4xl pb-3 border-b-2 border-white">
           Join Chat
         </h1>
-
-        {/* Name Input */}
         <div className="mt-5">
           <input
             placeholder="Enter Your Name"
@@ -22,8 +18,6 @@ export default function SignIn() {
             onChange={(event) => setName(event.target.value)}
           />
         </div>
-
-        {/* Room Input */}
         <div className="mt-4">
           <input
             placeholder="Enter Room Name"
@@ -32,8 +26,6 @@ export default function SignIn() {
             onChange={(event) => setRoom(event.target.value)}
           />
         </div>
-
-        {/* Sign In Button */}
         <Link
           onClick={(e) => (!name || !room ? e.preventDefault() : null)}
           to={`/chat?name=${name}&room=${room}`}
@@ -48,4 +40,4 @@ export default function SignIn() {
       </div>
     </div>
   );
-}
+};
