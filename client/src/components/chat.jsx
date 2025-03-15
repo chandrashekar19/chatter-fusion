@@ -24,7 +24,10 @@ const Chat = () => {
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
 
-    socket = io(ENDPOINT);
+    socket = io(ENDPOINT, {
+      withCredentials: true, // ✅ Allows sending cookies/auth
+      transports: ["websocket", "polling"], // ✅ Ensures better connection stability
+    });
 
     setRoom(room);
     setName(name);
